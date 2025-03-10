@@ -6,8 +6,8 @@ namespace Minhas_Compras.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        public string Descricao { get; set; }
-        public double Quantidade { get; set; }
-        public double Preco { get; set; }
+        public required string Descricao { get; set; }
+        public int Quantidade { get; set; }
+        public decimal Preco { get; set; }
     }
 }

@@ -1,25 +1,36 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Minhas_Compras.Helpers;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace Minhas_Compras.WinUI
+namespace Minhas_Compras
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    public partial class App : MauiWinUIApplication
+    public partial class App : Application
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App()
+        static SQLiteDatabaseHelper _database;
+
+        public static SQLiteDatabaseHelper Database
         {
-            this.InitializeComponent();
+            get
+            {
+                if (_database == null)
+                {
+                    string path = Path.Combine(
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.LocalApplicationData),
+                        "banco_sqlite_compras.db3");
+
+                    _database = new SQLiteDatabaseHelper(path);
+                }
+
+                return _database;
+            }
         }
 
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
-    }
+        public App()
+        {
+            InitializeComponent();
 
+            InitializeComponent();
+            _ = Database.InitializeAsync(); // Inicializa o banco
+            MainPage = new NavigationPage(new Views.ListaProduto());
+        }
+    }
 }
